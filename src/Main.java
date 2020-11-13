@@ -16,16 +16,27 @@ public class Main {
         Method[] m = Main.class.getDeclaredMethods();
         for (Method method : m) {
             for (Annotation annotation : method.getAnnotations())
-                if (annotation.annotationType() == CordovaEvent.class)
+                if (annotation.annotationType() == CordovaEvent.class) {
                     method.invoke(Main.class);
+                } else if(annotation.annotationType() == Logger.class) {
+                    //startLoggingTimer();
+                    method.invoke(Main.class);
+                    // send logging event after getting the parameter
+                }
         }
 
     }
 
     @CordovaEvent
+    @Logger(logString = "something")
     public static Event something() {
-        System.out.println("hello world");
+        System.out.println("something ran...");
         return new Event("something", new String("Hello world"));
+    }
+
+    @Logger(logString = "doSomething")
+    public static void doSomething(){
+        System.out.println("doSomething ran...");
     }
 
 }
