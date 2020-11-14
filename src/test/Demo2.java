@@ -1,14 +1,15 @@
 package test;
 
-@ExecutorClass
-public class Demo2 {
+import production.CordovaBaseModule;
+import production.annotations.Bogger;
 
-    @ExecutorMethod
+public class Demo2 extends CordovaBaseModule {
+
     public void method21(){
 
     }
 
-    @ExecutorMethod
+    @Bogger(type = "single", name = "method22")
     public void method22(){
 
     }

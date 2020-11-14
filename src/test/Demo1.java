@@ -1,15 +1,14 @@
 package test;
 
-@ExecutorClass
-public class Demo1 {
+import production.CordovaBaseModule;
 
-    @ExecutorMethod
+public class Demo1 extends CordovaBaseModule {
+
     private void cantRunBecausePrivate(){
 
     }
 
-    @ExecutorMethod
-    public void runThisMethodWithTheMethodName(){
+    public void runThisMethodWithTheMethodName(Object args, Object callbackContext){
 
     }
 }
