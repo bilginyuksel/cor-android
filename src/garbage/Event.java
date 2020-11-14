@@ -1,3 +1,5 @@
+package garbage;
+
 public class Event {
     private String event;
     private Object[] params;
