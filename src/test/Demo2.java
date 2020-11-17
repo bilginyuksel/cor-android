@@ -1,7 +1,7 @@
 package test;
 
 import production.CordovaBaseModule;
-import production.annotations.Bogger;
+import cordova.base.Bogger;
 
 public class Demo2 extends CordovaBaseModule {
 
