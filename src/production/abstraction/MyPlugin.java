@@ -2,7 +2,7 @@ package production.abstraction;
 
 import production.CordovaBaseModule;
 import production.Pair;
-import cordova.CordovaMethod;
+import cordova.base.CordovaMethod;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,6 +1,6 @@
 package production;
 
-import cordova.CordovaMethod;
+import cordova.base.CordovaMethod;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
