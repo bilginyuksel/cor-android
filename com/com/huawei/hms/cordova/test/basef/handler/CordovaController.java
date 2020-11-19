@@ -45,22 +45,25 @@ public class CordovaController {
     }
 
     class CallbackResultHandlerThread extends Thread{
-        private long timePassed;
+        private long executionStartingTime;
         private final CallbackContext callbackContext;
         private Object hmsLogger;
+        private final long timeout = 3000;
         public CallbackResultHandlerThread(final CallbackContext callbackContext, Object hmsLogger){
             this.callbackContext=callbackContext;
             this.hmsLogger=hmsLogger;
             //startExecution
-            timePassed=System.currentTimeMillis();
+            methodExecutionTime=System.currentTimeMillis();
         }
 
         @Override
         public void run() {
-            while (!callbackContext.isFinished());
+            long passedTime = System.currentTimeMillis()-executionStartingTime;
+            while ((passedTime <= timeout) && !callbackContext.isFinished())
+                passedTime =  System.currentTimeMillis()-executionStartingTime;
+                
             //sendEvent
-            timePassed=System.currentTimeMillis()-timePassed;
-            Log.i("Logger ", "sendEvent " + timePassed);
+            Log.i("Logger ", "sendEvent -- time passed (ms)= " + (System.currentTimeMillis()-executionStartingTime));
         }
     }
 
