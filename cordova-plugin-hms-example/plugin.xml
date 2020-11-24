@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="cordova-plugin-hms-example" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" android="http://schemas.android.com/apk/res/android">
+	<name>cordova-plugin-hms-example</name>
+	<description>cordova-plugin-hms-example</description>
+	<license>Apache 2.0</license>
+	<keywords>cordova,hms</keywords>
+	<js-module name="HMSExample" src="www/HMSExample.js">
+		<clobbers target="HMSExample.js"></clobbers>
+	</js-module>
+	<platform name="android">
+		<config-file target="config.xml" parent="/*">
+			<feature name="HMSExample">
+				<param name="android-package" value="com.huawei.hms.cordova.example.HMSExample"></param>
+			</feature>
+		</config-file>
+		<source-file src="src/android/HMSExample.java" target-dir="src/android/"></source-file>
+		<source-file src="src/android/Test1.java" target-dir="src/android/"></source-file>
+		<source-file src="src/android/basef/CordovaBaseModule.java" target-dir="src/android/basef/"></source-file>
+		<source-file src="src/android/basef/CordovaMethod.java" target-dir="src/android/basef/"></source-file>
+		<source-file src="src/android/basef/HMSLog.java" target-dir="src/android/basef/"></source-file>
+		<source-file src="src/android/basef/handler/CordovaController.java" target-dir="src/android/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/CordovaModuleGroupHandler.java" target-dir="src/android/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/CordovaModuleHandler.java" target-dir="src/android/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/HMSLogger.java" target-dir="src/android/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/HMSLoggerNotInitializedException.java" target-dir="src/android/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/NoSuchCordovaModuleException.java" target-dir="src/android/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/Promise.java" target-dir="src/android/basef/handler/"></source-file>
+	</platform>
+</plugin>
