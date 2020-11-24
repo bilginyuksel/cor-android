@@ -22,7 +22,7 @@ public class HMSExample extends CordovaPlugin {
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
-		cordovaController = new CordovaController(webView.getContext(), "ExamplePlugin", "1.0.0",
+		cordovaController = new CordovaController(cordova, webView, "ExamplePlugin", "1.0.0",
 				Arrays.asList(new CordovaBaseModule[]{
 						new Test1(webView.getContext(), cordova.getActivity())
 				}));

@@ -10,12 +10,14 @@ public class ExamplePlugin extends CordovaPlugin {
     private CordovaController cordovaController;
     
     @Override
-    public void initialize(){
-        cordovaController = new CordovaController(Arrays.asList(new CordovaBaseModule[]{
-                // new Test1(webView.getContext())
-            	// You must add the cordova modules here
-        }));
-    }
+	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+		super.initialize(cordova, webView);
+		cordovaController = new CordovaController(cordova, webView, "ExamplePlugin", "1.0.0",
+				Arrays.asList(new CordovaBaseModule[]{
+						new Test1(webView.getContext(), cordova.getActivity())
+            	        // You must add the cordova modules here
+				}));
+	}
     
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext){
