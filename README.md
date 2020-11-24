@@ -10,8 +10,7 @@ public class ExamplePlugin extends CordovaPlugin {
     private CordovaController cordovaController;
     
     @Override
-    public void pluginInitialize(){
-        super.pluginInitialize();
+    public void initialize(){
         cordovaController = new CordovaController(Arrays.asList(new CordovaBaseModule[]{
                 // new Test1(webView.getContext())
             	// You must add the cordova modules here
@@ -38,15 +37,15 @@ public class SampleModule extends CordovaBaseModule {
     }
     
     @CordovaMethod
-    public void showToast(JSONArray args, final CallbackContext callbackContext){
+    public void showToast(JSONArray args, final Promise promise){
         Toast.makeText(context, "Hello from cordova", Toast.LENGTH_SHORT).show();
-        callbackContext.success();
+        promise.success();
     }
     
     @CordovaMethod
-    public void infoLog(JSONArray args, final CallbackContext callbackContext){
+    public void infoLog(JSONArray args, final Promise promise){
         Log.i(TAG,"InfoLog from cordova");
-        callbackContext.success();
+        promise.success();
     }
     // ...
     // ...
