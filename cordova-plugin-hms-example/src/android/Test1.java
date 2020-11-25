@@ -21,23 +21,30 @@ public class Test1 extends CordovaBaseModule {
     private Activity activity;
     private SampleFileForEventTest eventTest;
     public Test1(Context context, Activity activity){
-        super("test1", false);
+        super(Test1.class.getSimpleName(), false);
         this.context = context;
         this.activity= activity;
         eventTest = new SampleFileForEventTest();
     }
 
     @CordovaMethod
+    @HMSLog
     public void showToast(JSONArray args, final Promise promise){
         activity.runOnUiThread(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             Toast.makeText(context, "Hello from cordova", Toast.LENGTH_SHORT).show();
             promise.success();
         });
+    }
+
+
+    @CordovaMethod
+    public void test(JSONArray args, final Promise promise){
+        promise.success();
     }
 
     @CordovaEvent

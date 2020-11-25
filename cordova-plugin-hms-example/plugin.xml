@@ -13,17 +13,21 @@
 				<param name="android-package" value="com.huawei.hms.cordova.example.HMSExample"></param>
 			</feature>
 		</config-file>
-		<source-file src="src/android/HMSExample.java" target-dir="src/android/"></source-file>
-		<source-file src="src/android/Test1.java" target-dir="src/android/"></source-file>
-		<source-file src="src/android/basef/CordovaBaseModule.java" target-dir="src/android/basef/"></source-file>
-		<source-file src="src/android/basef/CordovaMethod.java" target-dir="src/android/basef/"></source-file>
-		<source-file src="src/android/basef/HMSLog.java" target-dir="src/android/basef/"></source-file>
-		<source-file src="src/android/basef/handler/CordovaController.java" target-dir="src/android/basef/handler/"></source-file>
-		<source-file src="src/android/basef/handler/CordovaModuleGroupHandler.java" target-dir="src/android/basef/handler/"></source-file>
-		<source-file src="src/android/basef/handler/CordovaModuleHandler.java" target-dir="src/android/basef/handler/"></source-file>
-		<source-file src="src/android/basef/handler/HMSLogger.java" target-dir="src/android/basef/handler/"></source-file>
-		<source-file src="src/android/basef/handler/HMSLoggerNotInitializedException.java" target-dir="src/android/basef/handler/"></source-file>
-		<source-file src="src/android/basef/handler/NoSuchCordovaModuleException.java" target-dir="src/android/basef/handler/"></source-file>
-		<source-file src="src/android/basef/handler/Promise.java" target-dir="src/android/basef/handler/"></source-file>
+		<source-file src="src/android/HMSExample.java" target-dir="src/com/huawei/hms/cordova/example/"></source-file>
+		<source-file src="src/android/Test1.java" target-dir="src/com/huawei/hms/cordova/example/"></source-file>
+		<source-file src="src/android/SampleEvent.java" target-dir="src/com/huawei/hms/cordova/example/"></source-file>
+		<source-file src="src/android/SampleFileForEventTest.java" target-dir="src/com/huawei/hms/cordova/example/"></source-file>
+		<source-file src="src/android/basef/CordovaBaseModule.java" target-dir="src/com/huawei/hms/cordova/example/basef/"></source-file>
+		<source-file src="src/android/basef/CordovaEvent.java" target-dir="src/com/huawei/hms/cordova/example/basef/"></source-file>
+		<source-file src="src/android/basef/CordovaMethod.java" target-dir="src/com/huawei/hms/cordova/example/basef/"></source-file>
+		<source-file src="src/android/basef/HMSLog.java" target-dir="src/com/huawei/hms/cordova/example/basef/"></source-file>
+		<source-file src="src/android/basef/handler/CordovaController.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/CordovaModuleGroupHandler.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/CordovaModuleHandler.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/CordovaEventRunner.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/HMSLogger.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/NoSuchCordovaModuleException.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/Promise.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
+		<source-file src="src/android/basef/handler/TSCGenerator.java" target-dir="src/com/huawei/hms/cordova/example/basef/handler/"></source-file>
 	</platform>
 </plugin>

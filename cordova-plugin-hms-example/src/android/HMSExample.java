@@ -26,6 +26,7 @@ public class HMSExample extends CordovaPlugin {
 				Arrays.asList(new CordovaBaseModule[]{
 						new Test1(webView.getContext(), cordova.getActivity())
 				}));
+
 	}
 
 	@Override

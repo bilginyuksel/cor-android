@@ -69,6 +69,9 @@ public class CordovaController {
 			CordovaModuleHandler moduleHandler = groupHandler.getCordovaModuleHandler(action);
 			String methodName = args.optString(0);
 			Method method = moduleHandler.getModuleMethod(methodName);
+
+
+
 			args.remove(0);
 			boolean isLoggerActive = false;
 			if (method.isAnnotationPresent(HMSLog.class)) {
@@ -85,7 +88,7 @@ public class CordovaController {
 	}
 
 	private Promise convertCallbackToPromise(final CallbackContext callbackContext, String methodName, boolean isLoggerActive) {
-		final Promise myCallback = (Promise) callbackContext;
+		final Promise myCallback = new Promise(callbackContext); //(Promise) callbackContext;
 		myCallback.setHmsLogger(hmsLogger);
 		myCallback.setMethodName(methodName);
 		myCallback.setLoggerRunning(isLoggerActive);

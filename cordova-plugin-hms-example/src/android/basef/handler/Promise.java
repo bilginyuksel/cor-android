@@ -6,14 +6,16 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Promise extends CallbackContext {
+public class Promise {
+
+	private final CallbackContext callbackContext;
 
 	private HMSLogger hmsLogger;
 	private String methodName;
 	private boolean isLoggerRunning;
 
-	public Promise(String callbackId, CordovaWebView webView) {
-		super(callbackId, webView);
+	public Promise(final CallbackContext callbackContext) {
+		this.callbackContext = callbackContext;
 	}
 
 	public void setHmsLogger(HMSLogger hmsLogger) {
@@ -28,59 +30,56 @@ public class Promise extends CallbackContext {
 		isLoggerRunning = loggerRunning;
 	}
 
-	@Override
 	public void success() {
-		super.success();
+		callbackContext.success();
 		sendLogEvent(null);
 	}
 
-	@Override
 	public void success(int message) {
-		super.success(message);
+		callbackContext.success(message);
 		sendLogEvent("" + message);
 	}
 
-	@Override
 	public void success(byte[] message) {
-		super.success(message);
+		callbackContext.success(message);
 		sendLogEvent(message.toString());
 	}
 
-	@Override
 	public void success(String message) {
-		super.success(message);
+		callbackContext.success(message);
 		sendLogEvent(message);
 	}
 
-	@Override
 	public void success(JSONArray message) {
-		super.success(message);
+		callbackContext.success(message);
 		sendLogEvent(message.toString());
 	}
 
-	@Override
 	public void success(JSONObject message) {
-		super.success(message);
+		callbackContext.success(message);
 		sendLogEvent(message.toString());
 	}
 
-	@Override
-	public void error(int message) {
-		super.error(message);
+	public void success(boolean message) {
+		callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, message));
 		sendLogEvent("" + message);
 	}
 
-	@Override
+	public void error(int message) {
+		callbackContext.error(message);
+		sendLogEvent("" + message);
+	}
+
 	public void error(String message) {
-		super.error(message);
+		callbackContext.error(message);
 		sendLogEvent(message);
 	}
 
-	@Override
 	public void error(JSONObject message) {
-		super.error(message);
+		callbackContext.error(message);
 		sendLogEvent(message.toString());
 	}
+
 
 	private void sendLogEvent(String nullable) {
 		if (!isLoggerRunning) return;
@@ -88,9 +87,4 @@ public class Promise extends CallbackContext {
 		else hmsLogger.sendSingleEvent(methodName, nullable);
 	}
 
-	// NOT RECOMMENDED
-	@Override
-	public void sendPluginResult(PluginResult pluginResult) {
-		super.sendPluginResult(pluginResult);
-	}
 }

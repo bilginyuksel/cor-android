@@ -46,4 +46,8 @@ class CordovaModuleHandler<T extends CordovaBaseModule> {
     T getInstance() {
         return instance;
     }
+
+    public Map<String, Method> getLookupTable() {
+        return lookupTable;
+    }
 }
