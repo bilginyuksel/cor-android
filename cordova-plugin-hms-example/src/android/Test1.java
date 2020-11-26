@@ -49,6 +49,7 @@ public class Test1 extends CordovaBaseModule {
 
     @CordovaEvent
     public void sampleEvent(CordovaEventRunner eventRunner) {
+
         eventTest.setSampleEvent(()->{
             eventRunner.sendEvent("sampleEvent");
         });
