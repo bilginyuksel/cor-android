@@ -1,15 +1,14 @@
 package com.huawei.hms.cordova.example.basef.handler;
 
-import com.huawei.hms.cordova.example.Test1;
 import com.huawei.hms.cordova.example.basef.CordovaBaseModule;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class TSCGenerator {
+    private String pluginName;
 
     private CordovaModuleGroupHandler groupHandler;
     private final List<String> moduleReferences = new ArrayList<>();
@@ -73,31 +72,25 @@ public class TSCGenerator {
             "    };\n" +
             "}";
 
-    public static void main(String[] args) {
-        System.out.println("Hello World");
-
-//        TSCGenerator tscGenerator = new TSCGenerator(
-//                Arrays.asList(new CordovaBaseModule[]{
-//                        new Test1(null, null)
-//                }));
-//
-//        tscGenerator.generateTSCModule("test1");
-    }
-
-
-    public <T extends CordovaBaseModule> TSCGenerator(List<T> cordovaModules) {
+    public <T extends CordovaBaseModule> TSCGenerator(String pluginName, List<T> cordovaModules) {
+        this.pluginName = pluginName;
         List<CordovaModuleHandler> cordovaModuleHandlers = new ArrayList<>();
         for (T cordovaModule : cordovaModules) {
             CordovaModuleHandler cordovaModuleHandler = new CordovaModuleHandler(cordovaModule);
             cordovaModuleHandlers.add(cordovaModuleHandler);
             moduleReferences.add(cordovaModule.getReference());
         }
-
         this.groupHandler = new CordovaModuleGroupHandler(cordovaModuleHandlers);
     }
 
-    public void generateTSCModule(String reference) {
-        // "test1"
+    public void generateTSCModules() {
+        TSCFileUtils.createFile("utils.ts", TS_UTILS_FILE);
+        for (String moduleRef: moduleReferences) {
+            generateTSCModule(moduleRef);
+        }
+    }
+
+    private void generateTSCModule(String reference) {
         CordovaModuleHandler cordovaModuleHandler = groupHandler.getCordovaModuleHandler(reference);
 
         String className = cordovaModuleHandler.getInstance().getReference();
@@ -105,29 +98,36 @@ public class TSCGenerator {
 
         String wholeClass = generateTSCHeader(className);
 
-
         for (String key: methods.keySet()) {
-            // key = methodName
-            // addMethod
             wholeClass += generateFunction(className, key);
         }
-        wholeClass += generateTSCEnd();
 
-        System.out.println(wholeClass);
+        if (!cordovaModuleHandler.getEventCache().isEmpty())
+            wholeClass += generateEventMethod();
+
+        wholeClass += generateTSCEnd();
+        TSCFileUtils.createFile(className+".ts", wholeClass);
     }
 
+    private String generateEventMethod() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n\ton(eventName: string, callback: (val: any) => void): void {\n");
+        sb.append("\t\twindow.registerHMSEvent(eventName, callback);\n");
+        sb.append("\t}\n");
+        return sb.toString();
+    }
 
     private String generateTSCHeader(String className) {
         StringBuilder sb = new StringBuilder();
         sb.append("import { asyncExec } from './utils';\n");
-        sb.append(String.format("export class %s {\n", className));
+        sb.append(String.format("\nexport class %s {\n", className));
         return sb.toString();
     }
 
     private String generateFunction(String className, String methodName) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%n\t%s(params: any) {%n", methodName));
-        sb.append(String.format("\t\treturn asyncExec('TODO', '%s', ['%s', params]);%n", className, methodName));
+        sb.append(String.format("%n\t%s(params: any): Promise<void> {%n", methodName));
+        sb.append(String.format("\t\treturn asyncExec('%s', '%s', ['%s', params]);%n", pluginName, className, methodName));
         sb.append("\t}\n");
         return sb.toString();
     }
@@ -135,5 +135,4 @@ public class TSCGenerator {
     private String generateTSCEnd() {
         return "}";
     }
-
 }

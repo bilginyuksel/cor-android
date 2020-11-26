@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class HMSExample extends CordovaPlugin {
 
-	private final static String TAG = HMSExample.class.getSimpleName();
+	public final static String TAG = HMSExample.class.getSimpleName();
 	private CordovaController cordovaController;
 
 	@Override
