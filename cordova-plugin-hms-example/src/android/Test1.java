@@ -8,6 +8,8 @@ import com.huawei.hms.cordova.example.basef.CordovaBaseModule;
 import com.huawei.hms.cordova.example.basef.CordovaEvent;
 import com.huawei.hms.cordova.example.basef.CordovaMethod;
 import com.huawei.hms.cordova.example.basef.HMSLog;
+import com.huawei.hms.cordova.example.basef.handler.CorPack;
+import com.huawei.hms.cordova.example.basef.handler.CordovaController;
 import com.huawei.hms.cordova.example.basef.handler.CordovaEventRunner;
 import com.huawei.hms.cordova.example.basef.handler.Promise;
 
@@ -29,13 +31,13 @@ public class Test1 extends CordovaBaseModule {
 
     @CordovaMethod
     @HMSLog
-    public void showToast(JSONArray args, final Promise promise){
+    public void showToast(final CorPack corPack, JSONArray args, final Promise promise){
         activity.runOnUiThread(() -> {
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Toast.makeText(context, "Hello from cordova", Toast.LENGTH_SHORT).show();
             promise.success();
         });
@@ -43,15 +45,15 @@ public class Test1 extends CordovaBaseModule {
 
 
     @CordovaMethod
-    public void test(JSONArray args, final Promise promise){
+    public void test(final CorPack corPack, JSONArray args, final Promise promise){
         promise.success();
     }
 
     @CordovaEvent
-    public void sampleEvent(CordovaEventRunner eventRunner) {
+    public void sampleEvent(final CorPack corPack) {
 
         eventTest.setSampleEvent(()->{
-            eventRunner.sendEvent("sampleEvent");
+            corPack.eventRunner.sendEvent("sampleEvent");
         });
     }
 

@@ -1,7 +1,5 @@
 package com.huawei.hms.cordova.example.basef.handler;
 
-
-import android.content.Context;
 import android.util.Log;
 
 import com.huawei.hms.cordova.example.basef.CordovaBaseModule;
@@ -11,13 +9,12 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CordovaController {
 	private static final String TAG = CordovaController.class.getSimpleName();
@@ -31,92 +28,77 @@ public class CordovaController {
 
 	public <T extends CordovaBaseModule> CordovaController(CordovaInterface cordova, CordovaWebView webView,
 														   String service, String version, List<T> cordovaModules) {
-		List<CordovaModuleHandler> cordovaModuleHandlers = new ArrayList<>();
+		List<CordovaModuleHandler> moduleHandlerList = new ArrayList<>();
 		for (T cordovaModule : cordovaModules) {
-			CordovaModuleHandler cordovaModuleHandler = new CordovaModuleHandler(cordovaModule);
-			cordovaModuleHandlers.add(cordovaModuleHandler);
+			CordovaModuleHandler moduleHandler = new CordovaModuleHandler(cordovaModule);
+			moduleHandlerList.add(moduleHandler);
 			moduleReferences.add(cordovaModule.getReference());
 		}
 		this.webView = webView;
 		this.cordova = cordova;
-		this.groupHandler = new CordovaModuleGroupHandler(cordovaModuleHandlers);
+		this.groupHandler = new CordovaModuleGroupHandler(moduleHandlerList);
 		this.hmsLogger = HMSLogger.getInstance(webView.getContext(), service, version);
-		this.eventRunner = CordovaEventRunner.getInstance(hmsLogger);
+		this.eventRunner = new CordovaEventRunner(webView, cordova.getActivity(), hmsLogger);
 
 		prepareEvents();
+		clearEventCache();
 	}
 
 	private void prepareEvents() {
-		for(String ref : moduleReferences) {
+		for (String ref : moduleReferences) {
 			List<Method> eventCache = groupHandler.getCordovaModuleHandler(ref).getEventCache();
 			runAllEventMethods(groupHandler.getCordovaModuleHandler(ref).getInstance(), eventCache);
 		}
 	}
 
 	private <T> void runAllEventMethods(T instance, List<Method> eventCache) {
-		for(Method method : eventCache) {
+		for (Method method : eventCache) {
 			try {
-				method.invoke(instance, eventRunner);
-				Log.i(TAG, "runAllEventMethods: " + method.getName() + " ready.");
+				method.invoke(instance, new CorPack(webView, cordova, eventRunner));
+				Log.i(TAG, "Event " + method.getName() + " is ready.");
 			} catch (IllegalAccessException | InvocationTargetException e) {
-				Log.e(TAG, "runAllEventMethods: " );
+				Log.e(TAG, "Event couldn't initialized. " + e.getMessage());
 			}
 		}
+	}
+
+	private void clearEventCache() {
+		for (String ref : moduleReferences)
+			groupHandler.getCordovaModuleHandler(ref).getEventCache().clear();
 	}
 
 	public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) {
 		try {
 			CordovaModuleHandler moduleHandler = groupHandler.getCordovaModuleHandler(action);
-			String methodName = args.optString(0);
+			Log.i(TAG, "Module " + action + " called.");
+			String methodName = args.getString(0); // JSONException if not exists
 			Method method = moduleHandler.getModuleMethod(methodName);
-
-
-
+			Log.i(TAG, "Method " + methodName + " called of module " + action + ".");
 			args.remove(0);
 			boolean isLoggerActive = false;
 			if (method.isAnnotationPresent(HMSLog.class)) {
 				isLoggerActive = true;
 				hmsLogger.startMethodExecutionTimer(methodName);
 			}
-			method.invoke(moduleHandler.getInstance(), args,
-					convertCallbackToPromise(callbackContext, methodName, isLoggerActive));
+			CorPack corPack = new CorPack(webView, cordova, eventRunner);
+			Promise promise = createPromiseFromCallbackContext(callbackContext, methodName, isLoggerActive);
+			method.invoke(moduleHandler.getInstance(), corPack, args, promise);
 			return true;
-		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | JSONException e) {
+			Log.e(TAG, "Error captured when execute method run for reference= " + action);
+			Log.e(TAG, e.getMessage() + " ---- " + e.getClass().getSimpleName());
+			callbackContext.error(e.getMessage()); // is it necessary ???
 			return false;
 		}
 	}
 
-	private Promise convertCallbackToPromise(final CallbackContext callbackContext, String methodName, boolean isLoggerActive) {
-		final Promise myCallback = new Promise(callbackContext); //(Promise) callbackContext;
-		myCallback.setHmsLogger(hmsLogger);
-		myCallback.setMethodName(methodName);
-		myCallback.setLoggerRunning(isLoggerActive);
-		return myCallback;
+	private Promise createPromiseFromCallbackContext(final CallbackContext callbackContext, String methodName, boolean isLoggerActive) {
+		final Promise promise = new Promise(callbackContext);
+		promise.setHmsLogger(hmsLogger);
+		promise.setMethodName(methodName);
+		promise.setLoggerRunning(isLoggerActive);
+		return promise;
 	}
-
-//    class CallbackResultHandlerThread extends Thread{
-//        private long executionStartingTime;
-//        private final CallbackContext callbackContext;
-//        private Object hmsLogger;
-//        private final long timeout = 3000;
-//        public CallbackResultHandlerThread(final CallbackContext callbackContext, Object hmsLogger){
-//            this.callbackContext=callbackContext;
-//            this.hmsLogger=hmsLogger;
-//            //startExecution
-//            executionStartingTime=System.currentTimeMillis();
-//        }
-//
-//        @Override
-//        public void run() {
-//            long passedTime = System.currentTimeMillis()-executionStartingTime;
-//            while ((passedTime <= timeout) && !callbackContext.isFinished())
-//                passedTime =  System.currentTimeMillis()-executionStartingTime;
-//
-//            //sendEvent
-//            Log.i("Logger ", "sendEvent -- time passed (ms)= " + (System.currentTimeMillis()-executionStartingTime));
-//        }
-//    }
 
 }
 

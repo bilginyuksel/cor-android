@@ -25,6 +25,7 @@ public class HMSExample extends CordovaPlugin {
 		cordovaController = new CordovaController(cordova, webView, "ExamplePlugin", "1.0.0",
 				Arrays.asList(new CordovaBaseModule[]{
 						new Test1(webView.getContext(), cordova.getActivity())
+//						new NearbyTest2(webView.getContext(), cordova.getActivity())
 				}));
 
 	}
