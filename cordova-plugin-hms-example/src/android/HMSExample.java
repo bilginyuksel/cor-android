@@ -6,32 +6,29 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import com.huawei.hms.cordova.example.basef.CordovaBaseModule;
 import com.huawei.hms.cordova.example.basef.handler.CordovaController;
-import com.huawei.hms.cordova.example.basef.handler.Promise;
 
 import java.util.Arrays;
 
 public class HMSExample extends CordovaPlugin {
 
-	public final static String TAG = HMSExample.class.getSimpleName();
 	private CordovaController cordovaController;
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
-		cordovaController = new CordovaController(cordova, webView, "ExamplePlugin", "1.0.0",
+		final String SERVICE = "CordovaExample";
+		final String VERSION = "5.0.0.300";
+		cordovaController = new CordovaController(this, SERVICE, VERSION,
 				Arrays.asList(new CordovaBaseModule[]{
 						new Test1(webView.getContext(), cordova.getActivity())
-//						new NearbyTest2(webView.getContext(), cordova.getActivity())
 				}));
-
 	}
 
 	@Override
-	public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+	public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) {
 		return cordovaController.execute(action, args, callbackContext);
 	}
 }
