@@ -20,7 +20,7 @@ public class HMSExample extends CordovaPlugin {
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
 		final String SERVICE = "CordovaExample";
-		final String VERSION = "5.0.0.300";
+		final String VERSION = "5.0.4.301";
 		cordovaController = new CordovaController(this, SERVICE, VERSION,
 				Arrays.asList(new CordovaBaseModule[]{
 						new Test1(webView.getContext(), cordova.getActivity())

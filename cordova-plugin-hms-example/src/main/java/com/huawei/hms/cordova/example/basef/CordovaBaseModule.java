@@ -4,9 +4,9 @@ public class CordovaBaseModule {
     private boolean isSingle;
     private String reference;
 
-    public CordovaBaseModule(String reference, boolean isSingle) {
-        this.reference = reference;
-        this.isSingle = isSingle;
+    public CordovaBaseModule() {
+        this.reference = this.getClass().getSimpleName();
+        this.isSingle = false;
     }
 
     public String getReference(){
