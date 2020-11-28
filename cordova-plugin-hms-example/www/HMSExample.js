@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-hms-example.HMSExample", function(require, exports, module) {
 const argscheck = require('cordova/argscheck');
 const exec = require('cordova/exec');
 const cordova = require('cordova');
@@ -17,14 +16,13 @@ const cordova = require('cordova');
 
 // module.exports = new HMSExample();
 
-
+function asyncExec(reference, args) {
+    return new Promise((resolve, reject) => {
+        exec(resolve, reject, 'HMSExample', reference, args);
+    });
+}
 
 function showToast(msg) {
-    return new Promise((resolve, reject) => {
-        exec(resolve, reject, 'HMSExample', 'test1', ['showToast', msg]);
-    });
-
+    return asyncExec('Test1', ['showToast', msg]);
 }
 exports.showToast = showToast;
-
-});
