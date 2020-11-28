@@ -5,7 +5,7 @@
 	<license>Apache 2.0</license>
 	<keywords>cordova,hms</keywords>
 	<js-module name="HMSExample" src="www/HMSExample.js">
-		<clobbers target="HMSExample.js"></clobbers>
+		<clobbers target="HMSExample"></clobbers>
 	</js-module>
 	<platform name="android">
 		<config-file target="config.xml" parent="/*">
