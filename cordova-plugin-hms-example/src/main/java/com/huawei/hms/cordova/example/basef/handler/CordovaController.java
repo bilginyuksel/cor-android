@@ -6,9 +6,7 @@ import com.huawei.hms.cordova.example.basef.CordovaBaseModule;
 import com.huawei.hms.cordova.example.basef.HMSLog;
 
 import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -53,7 +51,7 @@ public class CordovaController {
 	private <T> void runAllEventMethods(T instance, List<Method> eventCache) {
 		for (Method method : eventCache) {
 			try {
-				method.invoke(instance, new CorPack(cordovaPlugin, eventRunner));
+				method.invoke(instance, new CorPack(hmsLogger, cordovaPlugin, eventRunner));
 				Log.i(TAG, "Event " + method.getName() + " is ready.");
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				Log.e(TAG, "Event couldn't initialized. " + e.getMessage());
@@ -79,7 +77,7 @@ public class CordovaController {
 				isLoggerActive = true;
 				hmsLogger.startMethodExecutionTimer(methodName);
 			}
-			CorPack corPack = new CorPack(cordovaPlugin, eventRunner);
+			CorPack corPack = new CorPack(hmsLogger, cordovaPlugin, eventRunner);
 			Promise promise = createPromiseFromCallbackContext(callbackContext, methodName, isLoggerActive);
 			method.invoke(moduleHandler.getInstance(), corPack, args, promise);
 			return true;
