@@ -1,4 +1,4 @@
-package com.huawei.hms.cordova.example.basef;
+package com.huawei.hms.cordova.ads.basef;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

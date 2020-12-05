@@ -1,4 +1,4 @@
-package com.huawei.hms.cordova.example.basef.handler;
+package com.huawei.hms.cordova.ads.basef.handler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,5 +26,12 @@ class CordovaModuleGroupHandler {
     CordovaModuleHandler getCordovaModuleHandler(String reference) throws NoSuchCordovaModuleException {
         if(!hasCordovaModuleHandler(reference)) throw new NoSuchCordovaModuleException();
         return lookupTable.get(reference);
+    }
+
+    void clear() {
+        lookupTable.clear();
+        for(CordovaModuleHandler moduleHandler: cordovaModuleHandlers)
+            moduleHandler.clear();
+        cordovaModuleHandlers.clear();
     }
 }
