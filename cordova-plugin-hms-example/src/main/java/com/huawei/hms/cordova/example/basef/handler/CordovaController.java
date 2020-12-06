@@ -66,7 +66,6 @@ public class CordovaController {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) {
         try {
             CordovaModuleHandler moduleHandler = groupHandler.getCordovaModuleHandler(action);
-            Log.i(TAG, "Module " + action + " called.");
             String methodName = args.getString(0); // JSONException if not exists
             Method method = moduleHandler.getModuleMethod(methodName);
             Log.i(TAG, "Method " + methodName + " called of module " + action + ".");
@@ -82,7 +81,7 @@ public class CordovaController {
             return true;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | JSONException e) {
             Log.e(TAG, "Error captured when execute method run for reference= " + action);
-            Log.e(TAG, e.getMessage() + " ---- " + e.getClass().getSimpleName());
+            Log.e(TAG, e.getMessage() + ", " + e.getClass().getSimpleName());
             callbackContext.error(e.getMessage());
             return false;
         }

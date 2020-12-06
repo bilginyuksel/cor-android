@@ -22,33 +22,43 @@ public class CorPack {
     public void requestPermission(int requestCode, String permission) {
         cordova.requestPermission(cordovaPlugin, requestCode, permission);
     }
+
     public void requestPermissions(int requestCode, String[] permissions) {
         cordova.requestPermissions(cordovaPlugin, requestCode, permissions);
     }
+
     public boolean hasPermission(String permission) {
         return cordova.hasPermission(permission);
     }
+
     public void enableLogger() {
         hmsLogger.enableLogger();
     }
+
     public void disableLogger() {
         hmsLogger.disableLogger();
     }
+
     public void startMethodExecution(String methodName) {
         hmsLogger.startMethodExecutionTimer(methodName);
     }
-    public void sendSingleEvent(String methodName){
+
+    public void sendSingleEvent(String methodName) {
         hmsLogger.sendSingleEvent(methodName);
     }
+
     public void sendSingleEvent(String methodName, String errorCode) {
         hmsLogger.sendSingleEvent(methodName, errorCode);
     }
+
     public CordovaWebView getCordovaWebView() {
         return webView;
     }
+
     public CordovaInterface getCordova() {
         return cordova;
     }
+
     public CordovaEventRunner getEventRunner() {
         return eventRunner;
     }

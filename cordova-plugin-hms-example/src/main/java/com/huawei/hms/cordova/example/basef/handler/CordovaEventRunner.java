@@ -31,11 +31,11 @@ public class CordovaEventRunner {
     }
 
     private void sendEventToJS(String event, Object... objects) {
-        Log.i(TAG,"Periodic event "+ event +" captured and event "+ event +" is sending to JS.");
+        Log.i(TAG, "Periodic event " + event + " captured and event " + event + " is sending to JS.");
         StringBuilder jsFunctionBuilder = new StringBuilder();
         jsFunctionBuilder.append("javascript:");
         jsFunctionBuilder.append("window.runHMSEvent('").append(event).append("'");
-        if(objects.length>0) jsFunctionBuilder.append(buildJSEventParameters(objects));
+        if (objects.length > 0) jsFunctionBuilder.append(buildJSEventParameters(objects));
         jsFunctionBuilder.append(");");
         activity.runOnUiThread(() -> webView.loadUrl(jsFunctionBuilder.toString()));
     }
@@ -44,12 +44,11 @@ public class CordovaEventRunner {
         final String TO_STR_NOT_VALID_ERR = "Sent event parameter value is not valid! Please add toString() method to the object you " +
                 "are passing or do not pass this object as an event parameter. Objects current toString value is %s.";
         StringBuilder eventParametersBuilder = new StringBuilder();
-
         for (Object obj : objects) {
-            if(!isToStringValueValid(obj)) Log.w(TAG, String.format(Locale.ENGLISH, TO_STR_NOT_VALID_ERR, obj.toString()) );
+            if (!isToStringValueValid(obj))
+                Log.w(TAG, String.format(Locale.ENGLISH, TO_STR_NOT_VALID_ERR, obj.toString()));
             eventParametersBuilder.append(",").append(obj.toString());
         }
-
         return eventParametersBuilder.toString();
     }
 

@@ -1,12 +1,10 @@
 package com.huawei.hms.cordova.ads.basef;
 
 public abstract class CordovaBaseModule {
-    private boolean isSingle;
-    private String reference;
+    private final String reference;
 
     public CordovaBaseModule() {
         this.reference = this.getClass().getSimpleName();
-        this.isSingle = false;
     }
     public void onDestroy(){}
     public void onPause(boolean multitasking){}
@@ -18,8 +16,5 @@ public abstract class CordovaBaseModule {
 
     public String getReference(){
         return reference;
-    }
-    public boolean isSingle(){
-        return isSingle;
     }
 }
