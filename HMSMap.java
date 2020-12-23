@@ -1,4 +1,6 @@
-package com.huawei.hms.cordova.ads;
+package com.cor.android.framework;
+
+import android.content.Intent;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
@@ -6,30 +8,43 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
-import com.huawei.hms.cordova.ads.basef.CordovaBaseModule;
-import com.huawei.hms.cordova.ads.basef.handler.CordovaController;
+import com.cor.android.framework.basef.CordovaBaseModule;
+import com.cor.android.framework.basef.handler.CorLog;
+import com.cor.android.framework.basef.handler.CordovaController;
 
 import java.util.Arrays;
 
-public class HMSAds extends CordovaPlugin {
-
+public class HMSMap extends CordovaPlugin {
+    
+    private static final String SERVICE = "<service-name>";
+    private static final String VERSION = "<version>";
     private CordovaController cordovaController;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        final String SERVICE = "<service-name>";
-        final String VERSION = "<version>";
+        CorLog.setEnable(true);
         cordovaController = new CordovaController(this, SERVICE, VERSION,
-                Arrays.asList(
-                        new Test(webView.getContext())
-                ));
+                Arrays.asList(new Test()));
     }
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) {
         return cordovaController.execute(action, args, callbackContext);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        cordovaController.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    @Override
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
+        super.onRequestPermissionResult(requestCode, permissions, grantResults);
+        cordovaController.onRequestPermissionResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -67,5 +82,4 @@ public class HMSAds extends CordovaPlugin {
         super.onStop();
         cordovaController.onStop();
     }
-
 }

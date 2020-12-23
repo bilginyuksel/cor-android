@@ -1,8 +1,8 @@
-package com.huawei.hms.cordova.ads.basef.handler;
+package com.cor.android.framework.basef.handler;
 
-import com.huawei.hms.cordova.ads.basef.CordovaBaseModule;
-import com.huawei.hms.cordova.ads.basef.CordovaEvent;
-import com.huawei.hms.cordova.ads.basef.CordovaMethod;
+import com.cor.android.framework.basef.CordovaBaseModule;
+import com.cor.android.framework.basef.CordovaEvent;
+import com.cor.android.framework.basef.CordovaMethod;
 
 import java.lang.reflect.Method;
 
@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class CordovaModuleHandler<T extends CordovaBaseModule> {
+class CordovaModuleHandler {
     private final Map<String, Method> lookupTable = new HashMap<>();
     private final List<Method> eventCache = new ArrayList<>();
-    private final T instance;
+    private final CordovaBaseModule instance;
 
-    public CordovaModuleHandler(T moduleInstance) {
+    public CordovaModuleHandler(CordovaBaseModule moduleInstance) {
         this.instance = moduleInstance;
         fillLookupTable();
     }
@@ -31,15 +31,19 @@ class CordovaModuleHandler<T extends CordovaBaseModule> {
         }
     }
 
-    Method getModuleMethod(String action) throws NoSuchMethodException {
-        if(!lookupTable.containsKey(action)) throw new NoSuchMethodException();
+
+    Method getModuleMethod(String action)  {
         return lookupTable.get(action);
+    }
+
+    boolean hasModuleMethod(String action) {
+        return lookupTable.containsKey(action);
     }
 
     List<Method> getEventCache() {
         return eventCache;
     }
-    T getInstance() {
+    CordovaBaseModule getInstance() {
         return instance;
     }
     public Map<String, Method> getLookupTable() {
@@ -51,3 +55,4 @@ class CordovaModuleHandler<T extends CordovaBaseModule> {
         lookupTable.clear();
     }
 }
+

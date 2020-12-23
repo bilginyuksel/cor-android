@@ -1,4 +1,4 @@
-package com.huawei.hms.cordova.ads.basef.handler;
+package com.cor.android.framework.basef.handler;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
@@ -7,73 +7,54 @@ import org.json.JSONObject;
 
 import static org.apache.cordova.PluginResult.Status.OK;
 
-public class Promise {
+public final class Promise {
 
     private final CallbackContext callbackContext;
-    private final HMSLogger hmsLogger;
     private final String methodName;
-    private final boolean isLoggerRunning;
 
-    public Promise(final CallbackContext callbackContext, final HMSLogger logger, String method, boolean isActive) {
+    public Promise(final CallbackContext callbackContext, String method) {
         this.callbackContext = callbackContext;
-        this.hmsLogger = logger;
         this.methodName = method;
-        this.isLoggerRunning = isActive;
     }
 
     public void success() {
         callbackContext.success();
-        sendLogEvent(null);
     }
     public void success(int message) {
         callbackContext.success(message);
-        sendLogEvent(null);
     }
     public void success(byte[] message) {
         callbackContext.success(message);
-        sendLogEvent(null);
     }
     public void success(String message) {
         callbackContext.success(message);
-        sendLogEvent(null);
     }
     public void success(JSONArray message) {
         callbackContext.success(message);
-        sendLogEvent(null);
     }
     public void success(JSONObject message) {
         callbackContext.success(message);
-        sendLogEvent(null);
     }
     public void success(boolean message) {
         callbackContext.sendPluginResult(new PluginResult(OK, message));
-        sendLogEvent(null);
     }
     public void success(float message) {
         callbackContext.sendPluginResult(new PluginResult(OK, message));
-        sendLogEvent(null);
     }
     public void error(int message) {
         callbackContext.error(message);
-        sendLogEvent("" + message);
+    }
+    public void  error(CorError corError) {
+        callbackContext.error(corError.toJson());
     }
     public void error(String message) {
         callbackContext.error(message);
-        sendLogEvent(message);
     }
     public void error(JSONObject message) {
         callbackContext.error(message);
-        sendLogEvent(message.toString());
     }
     public void sendPluginResult(PluginResult pluginResult) {
         callbackContext.sendPluginResult(pluginResult);
-        sendLogEvent(null);
-    }
-
-    private void sendLogEvent(String nullable) {
-        if (!isLoggerRunning) return;
-        if (nullable == null) hmsLogger.sendSingleEvent(methodName);
-        else hmsLogger.sendSingleEvent(methodName, nullable);
     }
 
 }

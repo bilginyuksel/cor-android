@@ -1,1 +1,0 @@
-# cordova-plugin-hms-example

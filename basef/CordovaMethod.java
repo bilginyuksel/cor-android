@@ -1,4 +1,4 @@
-package com.huawei.hms.cordova.ads.basef;
+package com.cor.android.framework.basef;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CordovaEvent {
+public @interface CordovaMethod {
 }
